@@ -66,7 +66,7 @@ public class SsoLoginServlet extends HttpServlet {
 	        webSSOprofile.sendAuthenticationRequest(messageContext, options);
 		} catch (Exception e) {
 		    log.error("saml plugin error + " + e.getMessage());
-			response.sendRedirect("/jira/login.jsp?samlerror=general");
+			response.sendRedirect(saml2Config.getBaseUrl() + "/login.jsp?samlerror=general");
 		}
 	}
 
@@ -91,18 +91,18 @@ public class SsoLoginServlet extends HttpServlet {
 			String uidAttribute = saml2Config.getUidAttribute();
 			String userName = uidAttribute.equals("NameID") ? credential.getNameID().getValue() : credential.getAttributeAsString(uidAttribute);
 
-			authenticateUserAndLogin(request, response, userName);
+	        authenticateUserAndLogin(request, response, userName);
 		} catch (AuthenticationException e) {
 			try {
 			    log.error("saml plugin error + " + e.getMessage());
-				response.sendRedirect("/jira/login.jsp?samlerror=plugin_exception");
+				response.sendRedirect(saml2Config.getBaseUrl() + "/login.jsp?samlerror=plugin_exception");
 			} catch (IOException e1) {
 				throw new ServletException();
 			}
 		} catch (Exception e) {
 			try {
 			    log.error("saml plugin error + " + e.getMessage());
-				response.sendRedirect("/jira/login.jsp?samlerror=plugin_exception");
+				response.sendRedirect(saml2Config.getBaseUrl() + "/login.jsp?samlerror=plugin_exception");
 			} catch (IOException e1) {
 				throw new ServletException();
 			}
@@ -134,13 +134,13 @@ public class SsoLoginServlet extends HttpServlet {
 		    	Boolean result = (Boolean)authUserMethod.invoke(authenticator, new Object[]{request, response, principal});
 
 		        if (result) {
-		        	response.sendRedirect("/jira/secure/Dashboard.jspa");
+		        	response.sendRedirect(saml2Config.getBaseUrl() + "/secure/Dashboard.jspa");
 		        	return;
 		        }
 		    }
 		}
 
-		response.sendRedirect("/jira/login.jsp?samlerror=user_not_found");
+		response.sendRedirect(saml2Config.getBaseUrl() + "/login.jsp?samlerror=user_not_found");
 	}
 
 	private Object tryCreateOrUpdateUser(String userName) throws PermissionException, CreateException{

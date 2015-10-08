@@ -45,7 +45,7 @@ public class SsoLogoutServlet extends HttpServlet {
 	        profile.sendLogoutRequest(messageContext, credential);
 		} catch (Exception e) {
 		    log.error("saml plugin error + " + e.getMessage());
-		    response.sendRedirect("/jira/login.action?samlerror=general");
+		    response.sendRedirect(saml2Config.getBaseUrl() + "/login.action?samlerror=general");
 		}
 	}
 

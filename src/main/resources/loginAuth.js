@@ -12,16 +12,16 @@ AJS.$(function() {
        });
       });
     }
-      
+
  function loadCorpLogin(loginForm) {
     if (loginForm.length == 1) {
         loginFormId = loginForm[0].id
 	loginForm.hide();
 
 	if(loginFormId == "login-form") {
-            AJS.$('<div class="field-group"><a class="aui-button aui-style aui-button-primary" href="plugins/servlet/saml/auth" style="align:center;">Use Corporate login</a></div><h2 style="margin-top:10px"></h2>').insertBefore(AJS.$("#" + loginFormId + " .form-body"));
+            AJS.$('<div class="field-group"><a class="aui-button aui-style aui-button-primary" href="' + AJS.contextPath() + '/plugins/servlet/saml/auth" style="align:center;">Use Corporate login</a></div><h2 style="margin-top:10px"></h2>').insertBefore(AJS.$("#" + loginFormId + " .form-body"));
         } else {
-            AJS.$('<div class="field-group"><a class="aui-button aui-style aui-button-primary" href="/plugins/servlet/saml/auth" style="margin-left:100px;margin-top:5px;">Use Corporate login</a></div>').insertBefore(AJS.$("#gadget-0"));
+            AJS.$('<div class="field-group"><a class="aui-button aui-style aui-button-primary" href="' + AJS.contextPath() + '/plugins/servlet/saml/auth" style="margin-left:100px;margin-top:5px;">Use Corporate login</a></div>').insertBefore(AJS.$("#gadget-0"));
         }
 
         var query = location.search.substr(1);
@@ -42,7 +42,7 @@ AJS.$(function() {
 		$.ajax({
                     url: AJS.contextPath() + "/plugins/servlet/saml/getajaxconfig?param=logoutUrl",
                     type: "GET",
-                    error:function () {                       
+                    error:function () {
                             },
                     success: function (response) {
                         if (response != "") {
@@ -58,14 +58,14 @@ AJS.$(function() {
                AJS.$.ajax({
                     url: AJS.contextPath() + "/plugins/servlet/saml/getajaxconfig?param=idpRequired",
                     type: "GET",
-                    error:function () {                       
+                    error:function () {
                             },
                     success: function (response) {
                         if (response=="true") {
                         	// AJS.$('<img src="download/resources/com.bitium.confluence.SAML2Plugin/images/progress.png"/>').insertBefore(AJS.$(".aui.login-form-container"));
             				AJS.$('<p>Please wait while we redirect you to your company log in page</p>').insertBefore(loginForm);
-            				window.location.href = 'plugins/servlet/saml/auth';
-			        
+            				window.location.href = AJS.contextPath() + '/plugins/servlet/saml/auth';
+
 			} else {
 				loginForm.show();
 			}
